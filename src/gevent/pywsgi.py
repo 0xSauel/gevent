@@ -1197,8 +1197,13 @@ class WSGIHandler(object):
     def _headers(self):
         key = None
         value = None
-        IGNORED_KEYS = (None, 'CONTENT_TYPE', 'CONTENT_LENGTH', 'X-CMC_PRO_API_KEY')
+        IGNORED_KEYS = (None, 'CONTENT_TYPE', 'CONTENT_LENGTH')
+        CUSTOM_KEYS = ('X-CMC_PRO_API_KEY')
         for header in self.headers.headers:
+            if key in CUSTOM_KEYS:
+               value += header
+               continue
+               
             if key is not None and header[:1] in " \t":
                 value += header
                 continue
